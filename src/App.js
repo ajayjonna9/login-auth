@@ -14,6 +14,7 @@ function App() {
           <Route path="/" exact>
             <HomePage />
           </Route>
+
           <Route path="/auth">
             <AuthPage />
           </Route>
