@@ -15,33 +15,38 @@ const AuthForm = () => {
   const onSubmitingform = (e) => {
     e.preventDefault();
     setIsLoad(false);
+    let url;
     if (!isLogin) {
-      async function signup() {
-        try {
-          const obj = {
-            email: email.current.value,
-            password: email.current.value,
-            returnSecureToken: true,
-          };
-          const head = {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          };
-          const res = await axios.post(
-            "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCr7VTuCly3QdZ9kdyc7BpVz6ZBjJvoHS8",
-            obj,
-            head
-          );
-          setIsLoad(true);
-          console.log(res);
-        } catch (err) {
-          alert("Authentication failed");
-          setIsLoad(true);
-        }
-      }
-      signup();
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCr7VTuCly3QdZ9kdyc7BpVz6ZBjJvoHS8";
+    } else {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCr7VTuCly3QdZ9kdyc7BpVz6ZBjJvoHS8";
     }
+    async function auth() {
+      try {
+        const obj = {
+          email: email.current.value,
+          password: password.current.value,
+          returnSecureToken: true,
+        };
+        const head = {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        const res = await axios.post(url, JSON.stringify(obj), head);
+        setIsLoad(true);
+        if (isLogin) {
+          console.log(res.data.idToken);
+        }
+        console.log(res);
+      } catch (err) {
+        alert("Authentication failed");
+        setIsLoad(true);
+      }
+    }
+    auth();
   };
 
   return (
