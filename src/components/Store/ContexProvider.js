@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import Contex from "./Contex";
 
 const ContexProvider = (props) => {
-  const [token, setToken] = useState(null);
+  const localStorageToken = localStorage.getItem("token");
+  const [token, setToken] = useState(localStorageToken);
   const Login = (token) => {
     setToken(token);
+    localStorage.setItem("token", token);
   };
   const Logout = () => {
     setToken(null);
+    localStorage.removeItem("token");
   };
   const contexValues = {
     token: token,
