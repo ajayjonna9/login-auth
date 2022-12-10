@@ -1,14 +1,16 @@
 import axios from "axios";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 
 import classes from "./AuthForm.module.css";
+import Contex from "../Store/Contex";
 
 const AuthForm = () => {
   const email = useRef();
   const password = useRef();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoad, setIsLoad] = useState(true);
-
+  const [login, setLogin] = useState(false);
+  const contecVal = useContext(Contex);
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
@@ -37,10 +39,8 @@ const AuthForm = () => {
         };
         const res = await axios.post(url, JSON.stringify(obj), head);
         setIsLoad(true);
-        if (isLogin) {
-          console.log(res.data.idToken);
-        }
-        console.log(res);
+        contecVal.login(res.data.idToken);
+        console.log(res.data.idToken);
       } catch (err) {
         alert("Authentication failed");
         setIsLoad(true);

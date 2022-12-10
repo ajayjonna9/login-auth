@@ -1,24 +1,36 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-import classes from './MainNavigation.module.css';
+import classes from "./MainNavigation.module.css";
+import Contex from "../Store/Contex";
+import { useContext } from "react";
 
 const MainNavigation = () => {
+  const contexVal = useContext(Contex);
+  const onLogout = () => {
+    contexVal.logout();
+  };
   return (
     <header className={classes.header}>
-      <Link to='/'>
+      <Link to="/">
         <div className={classes.logo}>React Auth</div>
       </Link>
       <nav>
         <ul>
-          <li>
-            <Link to='/auth'>Login</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Profile</Link>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
+          {!contexVal.isLoggin && (
+            <li>
+              <Link to="/auth">Login</Link>
+            </li>
+          )}
+          {contexVal.isLoggin && (
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          )}
+          {contexVal.isLoggin && (
+            <li>
+              <button onClick={onLogout}>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
