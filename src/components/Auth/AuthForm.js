@@ -3,8 +3,10 @@ import { useContext, useRef, useState } from "react";
 
 import classes from "./AuthForm.module.css";
 import Contex from "../Store/Contex";
+import { Link, useHistory } from "react-router-dom";
 
 const AuthForm = () => {
+  const hystory = useHistory();
   const email = useRef();
   const password = useRef();
   const [isLogin, setIsLogin] = useState(true);
@@ -41,6 +43,7 @@ const AuthForm = () => {
         setIsLoad(true);
         contecVal.login(res.data.idToken);
         console.log(res.data.idToken);
+        hystory.replace("/");
       } catch (err) {
         alert("Authentication failed");
         setIsLoad(true);
@@ -69,6 +72,7 @@ const AuthForm = () => {
           ) : (
             <p>Sending Request...</p>
           )}
+
           <button
             type="button"
             className={classes.toggle}

@@ -27,6 +27,7 @@ const ProfileForm = () => {
           head
         );
         console.log(res);
+        contextval.login(res.data.idToken);
       } catch (err) {}
     }
     changepassword();
